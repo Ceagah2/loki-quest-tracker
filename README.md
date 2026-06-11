@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Event Quest Tracker
 
-## Getting Started
+Tracker de quests para evento de jogo. Todo o estado é salvo localmente no `localStorage`.
 
-First, run the development server:
+## Stack
+
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- sem banco de dados, sem backend
+
+## Instalação
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Estrutura
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/
+│   ├── page.tsx          # Página principal
+│   ├── layout.tsx        # Root layout
+│   └── globals.css       # Estilos globais
+├── components/
+│   ├── QuestCard.tsx     # Card colapsável genérico
+│   ├── Tag.tsx           # Badge de tipo (pvp/pve/drop/misc)
+│   ├── SummaryBar.tsx    # Barra de totais (Main / Arena / Secondary)
+│   ├── ArenaSection.tsx  # Royal Arena + Arena Tower (5 vitórias/dia)
+│   ├── MainSection.tsx   # Quests Main (limite 12/dia, 1x por opção)
+│   ├── SecondarySection  # Ancient Titan, HH, IA, Sleipnir, Treasure
+│   ├── HeadHunting.tsx   # Mobs por tier (permanente, não reseta)
+│   ├── ImmaturiyAngel.tsx# Ciclo upgrade +0→+9 → downgrade +9→+0
+│   └── LokiSection.tsx   # Loki Challenges Tier I-V (sequencial)
+├── hooks/
+│   └── useTracker.ts     # Todo o estado e lógica
+├── lib/
+│   └── data.ts           # Dados estáticos das quests e Loki
+└── types/
+    └── index.ts          # Types TypeScript
+```
 
-## Learn More
+## Regras implementadas
 
-To learn more about Next.js, take a look at the following resources:
+| Regra | Detalhe |
+|---|---|
+| Main — limite diário | 12 entregas/dia (cada opção I/II/III = 1) |
+| Main — entrega única | Cada opção só pode ser entregue 1x por dia |
+| Arena — vitórias | Máximo 5/dia somando Royal Arena + Arena Tower |
+| Secondary | Ilimitado, sem contador diário |
+| Head Hunting | Cada mob marcado 1x (permanente, não reseta) |
+| Immaturity Angel | Ciclo upgrade (+0→+9) depois downgrade (+9→+0) |
+| Loki Challenges | Tier I-V sequencial; sorteia 1 quest por tier/dia |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Reset
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+O botão **Resetar dia** limpa Main, Arena e Secondary padrão.
+Head Hunting e Immaturity Angel **não** são resetados (progresso permanente).
