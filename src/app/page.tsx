@@ -31,7 +31,7 @@ export default function Home() {
     );
   }
 
-  const { totalMain, arenaWins, totalSecondary, resetDay } = tracker;
+  const { totalMain, totalArenaWins, totalSecondary, resetDay } = tracker;
 
   const handleReset = () => {
     if (confirm("Resetar o dia? Head Hunting e Immaturity Angel NÃO serão resetados.")) {
@@ -55,7 +55,7 @@ export default function Home() {
         {/* Summary */}
         <SummaryBar
           totalMain={totalMain}
-          arenaWins={arenaWins}
+          totalArenaWins={totalArenaWins}
           totalSecondary={totalSecondary}
         />
 
@@ -76,21 +76,17 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Quest Tab */}
         {tab === "quests" && (
           <div>
             <SectionHeader dot="bg-arena" label="Arena" />
             <ArenaSection tracker={tracker} />
-
             <SectionHeader dot="bg-yellow-600" label="Main" />
             <MainSection tracker={tracker} />
-
             <SectionHeader dot="bg-teal-600" label="Secondary" />
             <SecondarySection tracker={tracker} />
           </div>
         )}
 
-        {/* Loki Tab */}
         {tab === "loki" && (
           <div>
             <SectionHeader dot="bg-loki" label="Loki Challenges" />

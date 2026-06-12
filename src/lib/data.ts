@@ -1,16 +1,46 @@
 import type { Quest, LokiTier } from "@/types";
 
 export const QUESTS: Quest[] = [
-  { id: "royal-arena", name: "Royal Arena", section: "arena", tags: ["pvp"] },
-  { id: "arena-tower", name: "Arena Tower", section: "arena", tags: ["pvp"] },
-  { id: "boss-rampage", name: "Boss Rampage", section: "main", tags: ["pve"], opts: ["I", "II", "III"] },
-  { id: "chrono-waves", name: "Chrono Waves", section: "main", tags: ["pve"], opts: ["I", "II", "III"] },
-  { id: "desert-royale", name: "Desert Royale", section: "main", tags: ["pvp"], opts: ["I", "II", "III"] },
-  { id: "quest-mortal", name: "Quest Mortal", section: "main", tags: ["pvp", "pve"], opts: ["I", "II", "III"] },
-  { id: "muspellheim", name: "Muspellheim", section: "main", tags: ["pvp", "pve"], opts: ["I", "II", "III"] },
-  { id: "reliquary", name: "Reliquary", section: "main", tags: ["drop"], opts: ["I", "II", "III"] },
-  { id: "tauron-loot", name: "Tauron Loot", section: "main", tags: ["drop"], opts: ["I", "II", "III"] },
-  { id: "ancient-titan", name: "Ancient Titan", section: "secondary", tags: ["pvp", "pve"], opts: ["I"] },
+  {
+    id: "royal-arena", name: "Royal Arena", section: "arena", tags: ["pvp"],
+    schedule: { server: "1", window: "00 - 03" },
+  },
+  {
+    id: "arena-tower", name: "Arena Tower", section: "arena", tags: ["pvp"],
+    schedule: { server: "4", window: "20 - 23" },
+  },
+  {
+    id: "boss-rampage", name: "Boss Rampage", section: "main", tags: ["pve"], opts: ["I", "II", "III"],
+    schedule: { server: "Todos", window: "Qualquer hora" },
+  },
+  {
+    id: "chrono-waves", name: "Chrono Waves", section: "main", tags: ["pve"], opts: ["I", "II", "III"],
+    schedule: { server: "Todos", window: "Qualquer hora" },
+  },
+  {
+    id: "desert-royale", name: "Desert Royale", section: "main", tags: ["pvp"], opts: ["I", "II", "III"],
+    schedule: { server: "2", window: "00 - 03" },
+  },
+  {
+    id: "quest-mortal", name: "Quest Mortal", section: "main", tags: ["pvp", "pve"], opts: ["I", "II", "III"],
+    schedule: { server: "1", window: "04, 14, 24, 34" },
+  },
+  {
+    id: "muspellheim", name: "Muspellheim", section: "main", tags: ["pvp", "pve"], opts: ["I", "II", "III"],
+    schedule: { server: "5", window: "Qualquer hora" },
+  },
+  {
+    id: "reliquary", name: "Reliquary", section: "main", tags: ["drop"], opts: ["I", "II", "III"],
+    schedule: { server: "Todos", window: "02, 17, 32, 47" },
+  },
+  {
+    id: "tauron-loot", name: "Tauron Loot", section: "main", tags: ["drop"], opts: ["I", "II", "III"],
+    schedule: { server: "Todos", window: "Qualquer hora" },
+  },
+  {
+    id: "ancient-titan", name: "Ancient Titan", section: "secondary", tags: ["pvp", "pve"], opts: ["I"],
+    schedule: { server: "3", window: "15 - 18" },
+  },
   { id: "head-hunting", name: "Head Hunting", section: "secondary", tags: ["pve"], type: "hh" },
   { id: "immaturity-angel", name: "Immaturity Angel", section: "secondary", tags: ["pve"], type: "ia" },
   { id: "sleipnir", name: "Sleipnir Expedition", section: "secondary", tags: ["misc"], opts: ["1 Dia", "2 Dias", "3 Dias"] },
