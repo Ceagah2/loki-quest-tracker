@@ -3,11 +3,11 @@ import type { Quest, LokiTier } from "@/types";
 export const QUESTS: Quest[] = [
   {
     id: "royal-arena", name: "Royal Arena", section: "arena", tags: ["pvp"],
-    schedule: { server: "1", window: "40 - 43" },
+    schedule: { server: "1 e 3", window: "40 - 43" },
   },
   {
     id: "arena-tower", name: "Arena Tower", section: "arena", tags: ["pvp"],
-    schedule: { server: "4", window: "20 - 23" },
+    schedule: { server: "4 e 6", window: "20 - 23" },
   },
   {
     id: "boss-rampage", name: "Boss Rampage", section: "main", tags: ["pve"], opts: ["I", "II", "III"],
@@ -23,7 +23,7 @@ export const QUESTS: Quest[] = [
   },
   {
     id: "quest-mortal", name: "Quest Mortal", section: "main", tags: ["pvp", "pve"], opts: ["I", "II", "III"],
-    schedule: { server: "1", window: "04, 14, 24, 34" },
+    schedule: { server: "Todos", window: "04, 14, 24, 34" },
   },
   {
     id: "muspellheim", name: "Muspellheim", section: "main", tags: ["pvp", "pve"], opts: ["I", "II", "III"],
@@ -39,7 +39,7 @@ export const QUESTS: Quest[] = [
   },
   {
     id: "ancient-titan", name: "Ancient Titan", section: "secondary", tags: ["pvp", "pve"], opts: ["I"],
-    schedule: { server: "3", window: "15 - 18" },
+    schedule: { server: "3 e 5", window: "15 - 18" },
   },
   { id: "head-hunting", name: "Head Hunting", section: "secondary", tags: ["pve"], type: "hh" },
   { id: "immaturity-angel", name: "Immaturity Angel", section: "secondary", tags: ["pve"], type: "ia" },
