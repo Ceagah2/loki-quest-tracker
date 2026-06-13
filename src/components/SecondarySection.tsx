@@ -1,6 +1,6 @@
 "use client";
 
-import { QUESTS } from "@/lib/data";
+import { QUESTS, scoreForOpt } from "@/lib/data";
 import { QuestCard } from "./QuestCard";
 import { ScheduleBadge } from "./ScheduleBadge";
 import { HeadHunting } from "./HeadHunting";
@@ -17,6 +17,8 @@ export function SecondarySection({ tracker }: { tracker: TrackerAPI }) {
     <div>
       {secQuests.map((q) => {
         const opts = q.opts ?? [];
+        const questScore = opts.reduce((acc, o) => acc + (state[`done_${q.id}_${o}`] ? scoreForOpt(q.id, o) : 0), 0);
+        const hasScore = q.type !== "hh" && q.type !== "ia" && questScore > 0;
 
         let body: React.ReactNode;
         if (q.type === "hh") {
@@ -28,11 +30,12 @@ export function SecondarySection({ tracker }: { tracker: TrackerAPI }) {
             <div className="flex flex-wrap gap-2 mt-2">
               {opts.map((opt) => {
                 const done = !!state[`done_${q.id}_${opt}`];
+                const pts = scoreForOpt(q.id, opt);
                 return (
                   <button
                     key={opt}
                     onClick={() => toggleSec(q.id, opt)}
-                    title={done ? "Clique para desfazer" : "Marcar como entregue"}
+                    title={done ? "Clique para desfazer" : `Marcar como entregue (+${pts}pt)`}
                     className={`flex items-center gap-2 px-3 py-1.5 rounded-md border text-sm transition-all cursor-pointer ${
                       done
                         ? "bg-green-900/20 border-green-800/40 text-green-400 hover:bg-red-900/15 hover:border-red-800/30 hover:text-red-400"
@@ -40,7 +43,11 @@ export function SecondarySection({ tracker }: { tracker: TrackerAPI }) {
                     }`}
                   >
                     {opt}
-                    {done && <span className="text-xs opacity-70">✓</span>}
+                    {pts > 0 && (
+                      <span className={`text-[10px] px-1 rounded font-medium ${done ? "text-green-600" : "text-stone-600"}`}>
+                        {done ? `✓ +${pts}` : `+${pts}pt`}
+                      </span>
+                    )}
                   </button>
                 );
               })}
@@ -56,6 +63,13 @@ export function SecondarySection({ tracker }: { tracker: TrackerAPI }) {
             tags={q.tags}
             isOpen={isOpen(q.id)}
             onToggle={() => toggleCard(q.id)}
+            badge={
+              hasScore ? (
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-yellow-900/20 border border-yellow-800/30 text-yellow-500 font-medium">
+                  +{questScore}pt
+                </span>
+              ) : undefined
+            }
           >
             {q.schedule && <ScheduleBadge schedule={q.schedule} />}
             {body}

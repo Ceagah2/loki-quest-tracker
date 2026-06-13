@@ -31,7 +31,7 @@ export default function Home() {
     );
   }
 
-  const { totalMain, totalArenaWins, totalSecondary, resetDay } = tracker;
+  const { totalMain, totalArenaWins, totalSecondary, totalQuestScore, resetDay } = tracker;
 
   const handleReset = () => {
     if (confirm("Resetar o dia? Head Hunting e Immaturity Angel NÃO serão resetados.")) {
@@ -57,6 +57,7 @@ export default function Home() {
           totalMain={totalMain}
           totalArenaWins={totalArenaWins}
           totalSecondary={totalSecondary}
+          totalQuestScore={totalQuestScore}
         />
 
         {/* Tabs */}

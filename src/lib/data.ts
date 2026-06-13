@@ -119,3 +119,51 @@ export const LOKI_DATA: LokiTier[] = [
     ],
   },
 ];
+
+// ─── Score Quest ──────────────────────────────────────────────────────────────
+// Maps option label → score points. Used by tracker and UI.
+export const OPT_SCORE: Record<string, number> = {
+  "I": 1,
+  "II": 2,
+  "III": 3,
+  // Sleipnir Expedition
+  "1 Dia": 1,
+  "2 Dias": 2,
+  "3 Dias": 3,
+};
+
+// Returns the score for a given quest option.
+// Ancient Titan always gives 3 regardless of option label.
+export function scoreForOpt(questId: string, opt: string): number {
+  if (questId === "ancient-titan") return 3;
+  return OPT_SCORE[opt] ?? 0;
+}
+
+// Returns the Score Quest for a given total number of arena wins (combined).
+// Score is CUMULATIVE per threshold reached:
+//   >= 1 win  → +1pt
+//   >= 3 wins → +2pt (additional)
+//   >= 5 wins → +3pt (additional)
+// Total possible: 1+2+3 = 6pt at 5 wins.
+export function arenaScore(totalWins: number): number {
+  let score = 0;
+  if (totalWins >= 1) score += 1;
+  if (totalWins >= 3) score += 2;
+  if (totalWins >= 5) score += 3;
+  return score;
+}
+
+// Max possible daily Score Quest (all Main I/II/III + both arenas full + secondary standard)
+// Exposed so UI can show max potential later if needed.
+export const MAX_DAILY_SCORE = (() => {
+  let s = 0;
+  // Main: each quest has I(1)+II(2)+III(3) = 6, but capped at 12 total deliveries
+  // Just sum all opts across all scorable quests for the theoretical max
+  QUESTS.forEach(q => {
+    if (q.type === "hh" || q.type === "ia") return;
+    (q.opts ?? []).forEach(o => { s += scoreForOpt(q.id, o); });
+  });
+  // Arena: 5 wins max — we don't know the mix of I/II/III so max = 5×3 = 15
+  s += 15;
+  return s;
+})();

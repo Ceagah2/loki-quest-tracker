@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { QUESTS, HH_TIERS } from "@/lib/data";
+import { QUESTS, HH_TIERS, scoreForOpt, arenaScore } from "@/lib/data";
 import type { TrackerState } from "@/types";
 
 const STORAGE_KEY = "quest-tracker-v3";
@@ -148,6 +148,24 @@ export function useTracker() {
     return t;
   })();
 
+
+  // ─── Quest Score ──────────────────────────────────────────────────────────
+  const totalQuestScore = (() => {
+    let score = 0;
+    // Main + Secondary standard opts
+    QUESTS.filter(q => q.section !== "arena" && q.type !== "hh" && q.type !== "ia").forEach(q => {
+      (q.opts ?? []).forEach(o => {
+        if (state[`done_${q.id}_${o}`]) score += scoreForOpt(q.id, o);
+      });
+    });
+    // Arena: score is based on TOTAL combined wins across all arenas.
+    // 1 win = 1pt, 3 wins = 2pt, 5 wins = 3pt.
+    const totalWins = QUESTS.filter(q => q.section === "arena")
+      .reduce((sum, q) => sum + ((state[`arena_wins_${q.id}`] as number) || 0), 0);
+    score += arenaScore(totalWins);
+    return score;
+  })();
+
   // ─── Reset ────────────────────────────────────────────────────────────────
   const resetDay = useCallback(() => {
     update((s) => {
@@ -170,6 +188,7 @@ export function useTracker() {
     lokiTierDone, lokiSel, lokiUnlocked,
     isOpen, toggleCard,
     totalSecondary,
+    totalQuestScore,
     resetDay,
   };
 }
