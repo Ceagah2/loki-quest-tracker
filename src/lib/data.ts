@@ -3,7 +3,7 @@ import type { Quest, LokiTier } from "@/types";
 export const QUESTS: Quest[] = [
   {
     id: "royal-arena", name: "Royal Arena", section: "arena", tags: ["pvp"],
-    schedule: { server: "1", window: "00 - 03" },
+    schedule: { server: "1", window: "40 - 43" },
   },
   {
     id: "arena-tower", name: "Arena Tower", section: "arena", tags: ["pvp"],
